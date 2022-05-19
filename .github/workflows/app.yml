@@ -53,15 +53,3 @@ jobs:
           Build: FAIL
           Repository: ${{ github.repository }}
           See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
-
-
-
-
-
-
-
-
-//Setting telegram bot notifyer
-//https://dev.to/felipemsfg/telegram-notification-with-github-actions-69m
-//https://github.com/marketplace/actions/telegram-notify
-//
