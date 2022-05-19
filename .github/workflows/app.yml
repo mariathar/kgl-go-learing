@@ -53,3 +53,15 @@ jobs:
             Repository: ${{ github.repository }}
             
             See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+
+
+
+
+
+
+
+/*
+//Настройка бота
+//https://dev.to/felipemsfg/telegram-notification-with-github-actions-69m
+//https://github.com/marketplace/actions/telegram-notify
+//*/
