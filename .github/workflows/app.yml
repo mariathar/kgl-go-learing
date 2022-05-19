@@ -41,7 +41,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build]
     steps:
-      - name: send telegram message on push
+      - name: Notify failure
+        if: ${{ needs.build.result == 'failure' }}
         uses: appleboy/telegram-action@master
         with:
           to: ${{ secrets.TELEGRAM_TO }}
@@ -49,10 +50,26 @@ jobs:
           message: |
             ${{ github.actor }} created commit:
             Commit message: ${{ github.event.commits[0].message }}
-            
+            Build: FAIL
             Repository: ${{ github.repository }}
-            
+            ${{ format('Author: {0}', github.actor) }}
+            ${{ format('Branch: {0}', needs.build-and-push.outputs.branch) }}
             See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+
+       - name: Notify success
+         if: ${{ needs.build.result == 'success' }}
+         uses: appleboy/telegram-action@master
+         with:
+           to: ${{ secrets.TELEGRAM_TO }}
+           token: ${{ secrets.TELEGRAM_TOKEN }}
+           message: |
+              ${{ github.actor }} created commit:
+              Commit message: ${{ github.event.commits[0].message }}
+              Build: SUCCESS
+              Repository: ${{ github.repository }}
+              ${{ format('Author: {0}', github.actor) }}
+              ${{ format('Branch: {0}', needs.build-and-push.outputs.branch) }}
+              See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
 
 
 
@@ -61,7 +78,7 @@ jobs:
 
 
 /*
-//Настройка бота
+//Setting telegram bot notifyer
 //https://dev.to/felipemsfg/telegram-notification-with-github-actions-69m
 //https://github.com/marketplace/actions/telegram-notify
 //*/
