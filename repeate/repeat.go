@@ -1,4 +1,4 @@
-package main
+package repeate
 
 const repeatCount = 5
 
