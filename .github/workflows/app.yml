@@ -52,4 +52,21 @@ jobs:
           Commit message: ${{ github.event.commits[0].message }}
           Build: FAIL
           Repository: ${{ github.repository }}
+          ${{ format('Author: {0}', github.actor) }}
+          ${{ format('Branch: {0}', needs.build-and-push.outputs.branch) }}
           See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+
+      - name: Notify success
+        if: ${{ needs.build.result == 'success' }}
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            ${{ github.actor }} created commit:
+            Commit message: ${{ github.event.commits[0].message }}
+            Build: SUCCESS
+            Repository: ${{ github.repository }}
+            ${{ format('Author: {0}', github.actor) }}
+            ${{ format('Branch: {0}', needs.build-and-push.outputs.branch) }}
+            See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
